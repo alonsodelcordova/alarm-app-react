@@ -1,11 +1,73 @@
 import moment = require('moment/moment');
 import * as React from 'react';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { BsFillTrashFill, BsToggleOff, BsToggleOn } from 'react-icons/bs';
+import Swal from 'sweetalert2';
 import './style.css';
+import { Alarm } from './types';
 
 export default function App() {
   const [timeDate, setTimeDate] = useState(new Date());
-  const [alarms, setAlarms] = useState([]);
+  const [alarms, setAlarms] = useState([
+    {
+      date: new Date(),
+      status: true,
+    },
+  ] as Alarm[]);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const addAlarm = (data) => {
+    let nowDate = moment();
+    let dateNew = new Date(
+      nowDate.year(),
+      nowDate.month(),
+      Number(nowDate.format('DD')),
+      data.hour,
+      data.minute,
+      0
+    );
+    setAlarms([
+      ...alarms,
+      {
+        date: dateNew,
+        status: true,
+      },
+    ]);
+  };
+
+  const deleteAlarm = (index: number) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setAlarms(alarms.filter((_, i) => i != index));
+        Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+      }
+    });
+  };
+
+  const changeStatusAlarm = (index) => {
+    setAlarms(
+      alarms.map((data, i) => {
+        if (i == index) {
+          data.status= !data.status;
+        }
+        return data;
+      })
+    );
+  };
 
   setTimeout(() => {
     setTimeDate(new Date());
@@ -15,17 +77,46 @@ export default function App() {
     <div className="content">
       <div className="card">
         <h1 className="center">App de Alarma</h1>
-        <h6 className="center">{moment(timeDate).format('hh:mm:ss')}</h6>
+        <h6 className="center">{moment(timeDate).format('HH:mm:ss')}</h6>
+        <form onSubmit={handleSubmit(addAlarm)}>
+          <div className="form-group">
+            <input
+              type="number"
+              placeholder="HH"
+              max="23"
+              {...register('hour', { required: true, maxLength: 2, max: 23 })}
+            />
+            <span className="stag">:</span>
+            <input
+              type="number"
+              placeholder="MM"
+              {...register('minute', { required: true, maxLength: 2, max: 60 })}
+            />
+          </div>
+          <div className="center">
+            <button className="btn-alarm" type="submit">
+              Add Alarm
+            </button>
+          </div>
+        </form>
 
-        <div className="form-group">
-          <input type="number" />
-          <span className="stag">:</span>
-          <input type="number" />
-        </div>
-        <div className="center">
-          <button>Add Alarm</button>
-        </div>
-
+        {alarms.map((el, index) => (
+          <div className="context-item" key={index}>
+            {moment(el.date).format('HH:mm')}
+            <div>
+              <button
+                className="btn-icon"
+                onClick={() => changeStatusAlarm(index)}
+              >
+                {el.status ? <BsToggleOn /> : <BsToggleOff />}
+              </button>
+              <button className="btn-icon" onClick={() => deleteAlarm(index)}>
+                <BsFillTrashFill />
+              </button>
+            </div>
+          </div>
+        ))}
+        {alarms.length == 0 ? <span>No content alarms.</span> : null}
         <p>Start editing to see some magic happen :)</p>
       </div>
     </div>
