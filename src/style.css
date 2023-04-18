@@ -1,7 +1,81 @@
-h1, p {
+h1,
+p {
   font-family: Lato;
 }
 
-.content{
+.content {
   background-color: aliceblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 95vh;
+}
+
+.card {
+  background-color: white;
+  max-width: 700px;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.card h6 {
+  font-size: 1rem;
+}
+.form-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.form-group input {
+  background-color: rgb(225, 227, 228);
+  border-radius: 0.2rem;
+  margin: 0 0.3rem;
+  padding: 0.5rem;
+  max-width: 5rem;
+}
+.form-group .stag {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  background-color: rgb(87, 151, 207);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover{
+  background-color: rgb(129, 174, 212);
+}
+
+/*delete decoration number*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+/*border inputs*/
+input {
+  border: 0;
+  outline: 0;
+}
+input:focus {
+  outline: none !important;
+}
+
+.center {
+  text-align: center;
+  
 }
