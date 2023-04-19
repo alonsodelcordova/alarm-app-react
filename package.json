@@ -10,7 +10,8 @@
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.43.9",
     "react-icons": "^4.8.0",
-    "sweetalert2": "^11.7.3"
+    "sweetalert2": "^11.7.3",
+    "use-sound": "^4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

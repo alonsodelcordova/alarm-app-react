@@ -6,10 +6,12 @@ import { BsFillTrashFill, BsToggleOff, BsToggleOn } from 'react-icons/bs';
 import Swal from 'sweetalert2';
 import './style.css';
 import { Alarm } from './types';
-
+import useSound from 'use-sound';
+import boopSfx from '';
 export default function App() {
   const [timeDate, setTimeDate] = useState(new Date());
   const [alarms, setAlarms] = useState([] as Alarm[]);
+  const [play] = useSound(boopSfx);
   const {
     register,
     handleSubmit,
@@ -69,6 +71,9 @@ export default function App() {
 
   setTimeout(() => {
     setTimeDate(new Date());
+    if(alarms.find(el=>moment(el.date).format('HH:mm:ss')==moment(timeDate).format('HH:mm:ss'))){
+
+    }
   }, 1000);
 
   return (
