@@ -7,15 +7,15 @@ import Swal from 'sweetalert2';
 import './style.css';
 import { Alarm } from './types';
 import useSound from 'use-sound';
-import boopSfx from '';
+import sound1 from "./assets/alarm.mp3";
+
 export default function App() {
   const [timeDate, setTimeDate] = useState(new Date());
   const [alarms, setAlarms] = useState([] as Alarm[]);
-  const [play] = useSound(boopSfx);
+  const [play] = useSound(sound1);
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
   } = useForm();
@@ -39,6 +39,7 @@ export default function App() {
     ]);
     setValue('hour', '');
     setValue('minute', '');
+    play();
   };
 
   const deleteAlarm = (index: number) => {
@@ -71,9 +72,16 @@ export default function App() {
 
   setTimeout(() => {
     setTimeDate(new Date());
-    if(alarms.find(el=>moment(el.date).format('HH:mm:ss')==moment(timeDate).format('HH:mm:ss'))){
-
+    if (
+      alarms.find(
+        (el) =>
+          moment(el.date).format('HH:mm:ss') ==
+          moment(timeDate).format('HH:mm:ss')
+      )
+    ) {
+      play();
     }
+   
   }, 1000);
 
   return (
