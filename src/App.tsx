@@ -9,16 +9,12 @@ import { Alarm } from './types';
 
 export default function App() {
   const [timeDate, setTimeDate] = useState(new Date());
-  const [alarms, setAlarms] = useState([
-    {
-      date: new Date(),
-      status: true,
-    },
-  ] as Alarm[]);
+  const [alarms, setAlarms] = useState([] as Alarm[]);
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -39,6 +35,8 @@ export default function App() {
         status: true,
       },
     ]);
+    setValue('hour', '');
+    setValue('minute', '');
   };
 
   const deleteAlarm = (index: number) => {
@@ -62,7 +60,7 @@ export default function App() {
     setAlarms(
       alarms.map((data, i) => {
         if (i == index) {
-          data.status= !data.status;
+          data.status = !data.status;
         }
         return data;
       })
@@ -117,7 +115,6 @@ export default function App() {
           </div>
         ))}
         {alarms.length == 0 ? <span>No content alarms.</span> : null}
-        <p>Start editing to see some magic happen :)</p>
       </div>
     </div>
   );
